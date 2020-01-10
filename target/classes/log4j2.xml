@@ -17,6 +17,11 @@
         <Logger name="org.springframework" level="ERROR" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
+        
+        <Logger name="egovframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+        
         <Logger name="egovframework.buzz" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
