@@ -60,13 +60,14 @@
 		    <groupId>egovframework.rte</groupId>
 		    <artifactId>egovframework.rte.ptl.mvc</artifactId>
 		    <version>${egovframework.rte.version}</version>
-		    <exclusions>
+		    <exclusions>		    	
 		    	<exclusion>
 		    		<artifactId>commons-logging</artifactId>
 		    		<groupId>commons-logging</groupId>
 		    	</exclusion>
 		    </exclusions>
         </dependency>
+        
         <dependency>
 		    <groupId>egovframework.rte</groupId>
 		    <artifactId>egovframework.rte.psl.dataaccess</artifactId>
