@@ -33,6 +33,7 @@ import egovframework.rte.fdl.cmmn.trace.manager.TraceHandlerService;
  *************************************************************************************************************************/
 
 @Configuration
+
 @ComponentScan(	basePackages = "egovframework",
 				includeFilters = {//root context 에서는 service,repository 만 포함해서 공통으로 사용한다
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Service.class),
@@ -44,7 +45,6 @@ import egovframework.rte.fdl.cmmn.trace.manager.TraceHandlerService;
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RestController.class)
 				}
 )
-
 public class ConfigContextCommon implements ApplicationContextAware{
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationContextAware.class);

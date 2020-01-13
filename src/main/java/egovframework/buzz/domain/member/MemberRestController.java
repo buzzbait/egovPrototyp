@@ -18,6 +18,7 @@ public class MemberRestController {
 	@Autowired
 	private MemberService _memberService;
 	
+	
 	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
 	public HashMap<String,Object> memberList(){
 		
@@ -43,6 +44,19 @@ public class MemberRestController {
 		
 		result.put("statuscode", 0);
 		result.put("data", memberList);
+		return result;
+	}
+	
+	@RequestMapping(value = "/demotran.do", method = RequestMethod.GET)
+	public HashMap<String,Object> demoTran(){
+		
+		LOGGER.debug("demoTran.do call.............");
+		
+		HashMap<String,Object> result =  new HashMap<String,Object>();		
+		_memberService.demoTran();
+		
+		result.put("statuscode", 0);
+		
 		return result;
 	}	
 	

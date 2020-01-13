@@ -15,4 +15,5 @@ public interface MemberMapper {
 	
 	public List<HashMap<String,Object>> memberList();
 	public List<HashMap<String,Object>> errorMemberList();
+	public void insertDemo(HashMap<String,Object> params);
 }

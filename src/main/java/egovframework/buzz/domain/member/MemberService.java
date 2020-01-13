@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 /********************************************************************************************
@@ -17,6 +18,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
  * - 별도의 로그설정 없이 EgovAbstractServiceImpl 에 정의된 egovLogger 를 사용 한다
  ********************************************************************************************/
 @Service
+@Transactional
 public class MemberService extends EgovAbstractServiceImpl {
 
 	@Autowired
@@ -31,9 +33,24 @@ public class MemberService extends EgovAbstractServiceImpl {
 	public List<HashMap<String,Object>> errorMemberList(){
 		
 		this.egovLogger.debug("Service 호출");
-		this.leaveaTrace("leaveaTrace.......");
+		//this.leaveaTrace("leaveaTrace.......");
 		
 		List<HashMap<String,Object>> members = _memberMapper.errorMemberList();
 		return members;
+	}
+	
+	public void demoTran() {
+		HashMap<String,Object> params =  new HashMap<String,Object>();
+		params.put("name", "name1");
+		_memberMapper.insertDemo(params);
+		
+		params.put("name", "name2");
+		_memberMapper.insertDemo(params);
+		
+		int i =  100 / 0;
+		
+		params.put("name", "name3");
+		_memberMapper.insertDemo(params);
+		
 	}
 }

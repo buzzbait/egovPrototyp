@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * servlet-context.xml 대체
  *********************************************************************************************************/
 @Configuration
+
 @ComponentScan(	basePackages = "egovframework",
 				includeFilters = {//servlet context 에서는 Controller 만 포함해서 사용한다
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class),

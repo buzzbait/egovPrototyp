@@ -1,20 +1,13 @@
 package egovframework.buzz.config;
 
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.util.AntPathMatcher;
-
-import egovframework.buzz.aop.AopExceptionTransfer;
-import egovframework.example.cmmn.EgovSampleExcepHndlr;
-import egovframework.example.cmmn.EgovSampleOthersExcepHndlr;
-import egovframework.rte.fdl.cmmn.aspect.ExceptionTransfer;
-import egovframework.rte.fdl.cmmn.exception.handler.ExceptionHandler;
-import egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager;
-
+import egovframework.buzz.aop.CommonAspect;
 /**
  * @Class Name : ConfigContextAspect.java
  * @Description : context-aspect.xml 대체 클레스
@@ -33,15 +26,27 @@ import egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManage
  *  Copyright (C) by SYSONE All right reserved.
  */
 
-/*************************************************************************************************************
- * context-*.xml 파일은 web.xml 파일에 의해서 시작시 자동으로 로딩
- * context-aspext.xml 의 경우는 AOP 를 이용한 Service layer 의 오류 처리를 담당
- * ControllerAdvice 를 이용한 전역 오류처리가 훨씬 간결하다
+/************************************************************************************************************* 
+ * context-aspext.xml 대체
+ * 전자정부프레임워크 최초 설정시 생성되는 context-aspect.xml 은 동작중인 Service Bean 들이 동작중에 예외가 발생
+ * 되면 후처리 로직으로 ExceptionTrasfer.class trasfer 메소드가 실행되도록 설정되어 있음
+ * Controller 이후의 오류는 RestController,Controller 에서 처리 하는것으로 변경
+ * @EnableAspectJAutoProxy
+ * ->AOP 의 Proxy 방식을 CGLib 방식으로 설정(전자정부프레임웍의 경우 디폴트는 JDK-Proxy)
  *************************************************************************************************************/
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan(	basePackages = "egovframework.buzz.exception")
+//@ComponentScan(basePackages="egovframework.buzz.aop")
 public class ConfigContextAspect {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigContextAspect.class);
+		
+	@Bean
+	public CommonAspect commonAspect() {
+		LOGGER.debug("CommonAspect 빈등록.........");
+		return new CommonAspect();
+	}
+	
 /*
 	@Bean
 	public AopExceptionTransfer aopExceptionTransfer(ExceptionTransfer exceptionTransfer) {

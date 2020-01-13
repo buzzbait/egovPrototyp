@@ -26,6 +26,8 @@ public class BuzzRestControllerAdvice {
 	@ExceptionHandler(Exception.class)    
     public ResponseEntity<HashMap<String,Object>>  basicException(Exception e) {
        
+		LOGGER.debug("error message-{}", e.getMessage());
+		
 		HashMap<String,Object> result = new HashMap<String,Object>();        
 		result.put("status" , -1);
 	    result.put("message", "error");

@@ -28,6 +28,7 @@ public class AopExceptionTransfer {
 	@AfterThrowing(pointcut = "exceptionTransferService()", throwing = "ex")
 	public void doAfterThrowingExceptionTransferService(JoinPoint thisJoinPont,Exception ex) throws Exception{
 		this.exceptionTransfer.transfer(thisJoinPont, ex);
-	}*/
+	}*/	
+	
 	
 }
