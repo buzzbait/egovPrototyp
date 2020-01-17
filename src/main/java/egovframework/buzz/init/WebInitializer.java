@@ -43,7 +43,10 @@ public class WebInitializer implements WebApplicationInitializer{
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		
 		LOGGER.debug("WebInitializer.........onStartup");
-						
+					
+		/*******************************************************************************************************
+		 * 1. APPLICATION CONTEXT 정의......(전체 공통)
+		 ******************************************************************************************************/
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		
 		//특정위치에 있는 Configuration 클래스를 Loading.....				
@@ -60,6 +63,9 @@ public class WebInitializer implements WebApplicationInitializer{
 	    //ContextLoaderListener 를 통해 root context 를 로딩하여 여러 서블릿이 사용할수 있게 한다 
 	    servletContext.addListener(new ContextLoaderListener(rootContext));
 	    	    
+	    /*******************************************************************************************************
+		 * 2. WEBAPPLICATION CONTEXT 정의......(서블릿)
+		 ******************************************************************************************************/
 	    //MVC 컨텍스트 정의
 	    AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
 	    appContext.register(WebMvcServlet.class);	   
