@@ -1,4 +1,4 @@
-package egovframework.buzz.config;
+package egovframework.buzz.rootconfig;
 
 import javax.sql.DataSource;
 

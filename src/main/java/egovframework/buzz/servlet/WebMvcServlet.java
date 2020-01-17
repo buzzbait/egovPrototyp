@@ -3,9 +3,7 @@ package egovframework.buzz.servlet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -18,20 +16,15 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-import egovframework.buzz.aop.SerlvetContextAspect;
-import egovframework.example.cmmn.web.EgovBindingInitializer;
 import egovframework.example.cmmn.web.EgovImgPaginationRenderer;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationRenderer;
@@ -41,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**********************************************************************************************************
  * 서블릿 정의 클래스
  * WebMvcConfigurationSupport 를 구현하면 @EnableWebMvc 가 필요 없어진다
- * servlet-context.xml 대체
+ * dispatcher-servlet.xml 대체
  * @EnableAspectJAutoProxy 를 사용해야 Controller(RestController) 에 대해서 CGLIB 방식으로 AOP를 사용 가능 하다
  * (ApplicationContext,ServletContext 따로 설정)
  *********************************************************************************************************/
