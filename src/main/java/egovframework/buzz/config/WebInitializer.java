@@ -72,17 +72,21 @@ public class WebInitializer implements WebApplicationInitializer{
         htmlTagFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
         //htmlTagFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "*.do");
         
-        /*********************************************************************************************************
-         * WAS VM Argument 에 별도의 값이 없는 경우 개발자 환경으로 설정
-         * -Dspring.profiles.active=test //개발서버
-         * -Dspring.profiles.active=prod //운영 서버
-         *********************************************************************************************************/
-        String[] activeProfile = rootContext.getEnvironment().getActiveProfiles();
+        _setActiveProfile(rootContext);        
+		
+	}
+	
+	 /*********************************************************************************************************
+     * WAS VM Argument 에 별도의 값이 없는 경우 개발자 환경으로 설정
+     * -Dspring.profiles.active=test //개발서버
+     * -Dspring.profiles.active=prod //운영 서버
+     *********************************************************************************************************/
+	private void _setActiveProfile(AnnotationConfigWebApplicationContext rootContext) {
+		String[] activeProfile = rootContext.getEnvironment().getActiveProfiles();
 		if(activeProfile.length == 0) {
 			//실행환경 옵션에 profile 이 없는 경우 기본적으로는 개발자 환경으로 설정		
 			rootContext.getEnvironment().setActiveProfiles(EnumRuntimeMode.LOCAL_SERVER.getValue());
 		}		
-		
 	}
 
 }

@@ -158,17 +158,11 @@ public class WebMvcServlet extends WebMvcConfigurationSupport{
 		return jsonConverter;
 	 }
 	 
-	 @Override
-	 public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		 converters.add(customJackson2HttpMessageConverter());
-		 super.addDefaultHttpMessageConverters(converters);
-	 }	 
-	 /*	 
-	 @Bean
-	 public SerlvetContextAspect serlvetContextAspect() {
-		 return new SerlvetContextAspect(); 
-	 }*/
-	 
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(customJackson2HttpMessageConverter());
+		super.addDefaultHttpMessageConverters(converters);
+	}	 
 		
 }
 
