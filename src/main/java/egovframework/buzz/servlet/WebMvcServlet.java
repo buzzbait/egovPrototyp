@@ -1,4 +1,4 @@
-package egovframework.buzz.config;
+package egovframework.buzz.servlet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+import egovframework.buzz.aop.SerlvetContextAspect;
 import egovframework.example.cmmn.web.EgovBindingInitializer;
 import egovframework.example.cmmn.web.EgovImgPaginationRenderer;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager;
@@ -40,27 +42,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 서블릿 정의 클래스
  * WebMvcConfigurationSupport 를 구현하면 @EnableWebMvc 가 필요 없어진다
  * servlet-context.xml 대체
+ * @EnableAspectJAutoProxy 를 사용해야 Controller(RestController) 에 대해서 CGLIB 방식으로 AOP를 사용 가능 하다
+ * (ApplicationContext,ServletContext 따로 설정)
  *********************************************************************************************************/
 @Configuration
 
-@ComponentScan(	basePackages = "egovframework",
+@ComponentScan(	basePackages = "egovframework.buzz",
 				includeFilters = {//servlet context 에서는 Controller 만 포함해서 사용한다
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class),
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RestController.class)
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class)					
 				},
 				excludeFilters = {//root context 의 service,repository 그리고 환경구성은 제외
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Service.class),
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Repository.class),						
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class)
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class)						
 				}
 )
-public class ConfigServletContext extends WebMvcConfigurationSupport{
+@EnableAspectJAutoProxy
+public class WebMvcServlet extends WebMvcConfigurationSupport{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(WebMvcConfigurationSupport.class);
-	
-	public ConfigServletContext() {
-		LOGGER.debug("ConfigServletContext.............");		
-	}
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebMvcServlet.class);
 	
 	/************************************************************************************************
 	 * RequestMappingHandlerAdapter 를 생성하지 않고 부모의 RequestMappingHandlerAdapter 를 받아서
@@ -115,6 +115,9 @@ public class ConfigServletContext extends WebMvcConfigurationSupport{
 		
 	@Bean
 	public UrlBasedViewResolver urlBasedViewResolver() {
+		
+		LOGGER.debug("UrlBasedViewResolver 빈 생성........");
+				
 		UrlBasedViewResolver urlBasedViewResolver =  new UrlBasedViewResolver();
 		urlBasedViewResolver.setOrder(1);
 		urlBasedViewResolver.setViewClass(JstlView.class);
@@ -159,7 +162,13 @@ public class ConfigServletContext extends WebMvcConfigurationSupport{
 	 public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		 converters.add(customJackson2HttpMessageConverter());
 		 super.addDefaultHttpMessageConverters(converters);
-	 }
+	 }	 
+	 /*	 
+	 @Bean
+	 public SerlvetContextAspect serlvetContextAspect() {
+		 return new SerlvetContextAspect(); 
+	 }*/
+	 
 		
 }
 

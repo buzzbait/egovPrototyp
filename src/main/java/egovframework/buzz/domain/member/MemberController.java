@@ -14,6 +14,11 @@ public class MemberController {
 	@Autowired
 	private MemberService _memberService;
 	
+	public MemberController() {
+		// TODO Auto-generated constructor stub
+		LOGGER.debug("MemberController 빈 생성.......");
+	}
+	
 	@RequestMapping(value = "/newmember.do")
 	public String newMember() {
 		

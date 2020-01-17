@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping(value = MemberRestController.BASE_URI)
 public class MemberRestController {
 
+	protected static final String BASE_URI = "/api/member";
 	private static final Logger LOGGER = LoggerFactory.getLogger(MemberRestController.class);
 	@Autowired
 	private MemberService _memberService;
 	
+	public MemberRestController() {
+		LOGGER.debug("MemberRestController 빈 생성.......");
+	}
 	
-	@RequestMapping(value = "/list.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public HashMap<String,Object> memberList(){
 		
 		LOGGER.debug("list.do call.............");
@@ -34,7 +38,7 @@ public class MemberRestController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/errorlist.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/errorlist", method = RequestMethod.GET)
 	public HashMap<String,Object> errorMemberList(){
 		
 		LOGGER.debug("errorlist.do call.............");

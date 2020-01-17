@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import egovframework.buzz.aop.CommonAspect;
+import egovframework.buzz.aop.CommonContextAspect;
 /**
  * @Class Name : ConfigContextAspect.java
  * @Description : context-aspect.xml 대체 클레스
@@ -33,18 +33,18 @@ import egovframework.buzz.aop.CommonAspect;
  * Controller 이후의 오류는 RestController,Controller 에서 처리 하는것으로 변경
  * @EnableAspectJAutoProxy
  * ->AOP 의 Proxy 방식을 CGLib 방식으로 설정(전자정부프레임웍의 경우 디폴트는 JDK-Proxy)
+ * 여기서설정하는 @EnableAspectJAutoProxy 는 ApplicationContext Level 에서만 가능(Service,Repsitory 만 AOP 적용)
  *************************************************************************************************************/
 @Configuration
 @EnableAspectJAutoProxy
-//@ComponentScan(basePackages="egovframework.buzz.aop")
 public class ConfigContextAspect {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigContextAspect.class);
 		
 	@Bean
-	public CommonAspect commonAspect() {
-		LOGGER.debug("CommonAspect 빈등록.........");
-		return new CommonAspect();
+	public CommonContextAspect commonAspect() {
+		LOGGER.debug("CommonContextAspect 빈등록.........");
+		return new CommonContextAspect();
 	}
 	
 /*

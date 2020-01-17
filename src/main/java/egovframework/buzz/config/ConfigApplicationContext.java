@@ -16,7 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler;
@@ -33,21 +34,21 @@ import egovframework.rte.fdl.cmmn.trace.manager.TraceHandlerService;
  *************************************************************************************************************************/
 
 @Configuration
-
-@ComponentScan(	basePackages = "egovframework",
+@ComponentScan(	basePackages = "egovframework.buzz",
 				includeFilters = {//root context 에서는 service,repository 만 포함해서 공통으로 사용한다
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Service.class),
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Repository.class)						
 				},
 				excludeFilters = {//controller 는 각 서블릿 컨텍스트에서 스캔하여 사용 한다
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class),
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class),
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RestController.class)
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = ControllerAdvice.class),
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RestControllerAdvice.class),						
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class)						
 				}
 )
-public class ConfigContextCommon implements ApplicationContextAware{
+public class ConfigApplicationContext implements ApplicationContextAware{
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationContextAware.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigApplicationContext.class);
 	
 	protected ApplicationContext _applicationContext;
 	
@@ -56,9 +57,6 @@ public class ConfigContextCommon implements ApplicationContextAware{
 		 this._applicationContext = applicationContext;		 
 	}
 	
-	public ConfigContextCommon() {
-		LOGGER.debug("ConfigContextCommon.............");
-	}
 	
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
@@ -110,12 +108,11 @@ public class ConfigContextCommon implements ApplicationContextAware{
 	 **********************************************************************************************************/
     @Bean
     public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
-    	    	
+    	
+    	LOGGER.debug("PropertyPlaceholderConfigurer 빈 생성...");
+    	
         PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();        
         String[] activeProfile =  _applicationContext.getEnvironment().getActiveProfiles();
-        
-        
-        LOGGER.debug("ActiveProfile.............{}",activeProfile.toString());
         
         configurer.setLocations(
                 this._applicationContext.getResource("classpath:/egovframework/profileprop/config-" + activeProfile[0] + ".properties")
@@ -125,7 +122,6 @@ public class ConfigContextCommon implements ApplicationContextAware{
 
         return configurer;
 
-    }
-	
+    }   
 
 }

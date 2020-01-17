@@ -24,6 +24,10 @@ public class MemberService extends EgovAbstractServiceImpl {
 	@Autowired
 	private MemberMapper _memberMapper;
 	
+	public MemberService() {
+		this.egovLogger.debug("MemberService 빈 생성.......");
+	}
+	
 	public List<HashMap<String,Object>> memberList(){
 		
 		List<HashMap<String,Object>> members = _memberMapper.memberList();
