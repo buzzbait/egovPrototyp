@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberRestController {
 
 	protected static final String BASE_URI = "/api/member";
+	//protected static final String BASE_URI = "/member";
 	private static final Logger LOGGER = LoggerFactory.getLogger(MemberRestController.class);
 	@Autowired
 	private MemberService _memberService;
@@ -52,12 +53,12 @@ public class MemberRestController {
 	}
 	
 	@RequestMapping(value = "/demotran.do", method = RequestMethod.GET)
-	public HashMap<String,Object> demoTran(){
+	public HashMap<String,Object> demoTran() throws Exception{
 		
 		LOGGER.debug("demoTran.do call.............");
 		
 		HashMap<String,Object> result =  new HashMap<String,Object>();		
-		_memberService.demoTran();
+		_memberService.demoTran(null);
 		
 		result.put("statuscode", 0);
 		

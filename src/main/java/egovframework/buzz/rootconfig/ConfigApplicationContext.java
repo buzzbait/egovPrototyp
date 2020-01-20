@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import egovframework.rte.fdl.cmmn.trace.LeaveaTrace;
 import egovframework.rte.fdl.cmmn.trace.handler.DefaultTraceHandler;
@@ -40,9 +41,8 @@ import egovframework.rte.fdl.cmmn.trace.manager.TraceHandlerService;
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Repository.class)						
 				},
 				excludeFilters = {//controller 는 각 서블릿 컨텍스트에서 스캔하여 사용 한다
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class),
+						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class),												
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = ControllerAdvice.class),
-						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = RestControllerAdvice.class),						
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class)						
 				}
 )
@@ -122,6 +122,8 @@ public class ConfigApplicationContext implements ApplicationContextAware{
 
         return configurer;
 
-    }   
+    }
+    
+
 
 }

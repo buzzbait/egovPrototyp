@@ -16,6 +16,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import egovframework.example.cmmn.web.EgovImgPaginationRenderer;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager;
@@ -44,7 +47,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 				includeFilters = {//servlet context 에서는 Controller 만 포함해서 사용한다
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Controller.class)					
 				},
-				excludeFilters = {//root context 의 service,repository 그리고 환경구성은 제외
+				excludeFilters = {//root context 의 service,repository 그리고 환경구성은 제외						
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Service.class),
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Repository.class),						
 						@ComponentScan.Filter(type = FilterType.ANNOTATION,value = Configuration.class)						
@@ -155,7 +158,7 @@ public class WebMvcServlet extends WebMvcConfigurationSupport{
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(customJackson2HttpMessageConverter());
 		super.addDefaultHttpMessageConverters(converters);
-	}	 
+	}
 		
 }
 

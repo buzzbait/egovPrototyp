@@ -43,7 +43,11 @@ public class MemberService extends EgovAbstractServiceImpl {
 		return members;
 	}
 	
-	public void demoTran() {
+	/***********************************************************************************************
+	 * [주의]전자정부 프레임워크 EgovAbstractServiceImpl 의 processException 를 throw 하면
+	 * 트랜잭션을 먹지 않는다
+	 ***********************************************************************************************/
+	public void demoTran(HashMap<String,Object> dummy) throws Exception{
 		HashMap<String,Object> params =  new HashMap<String,Object>();
 		params.put("name", "name1");
 		_memberMapper.insertDemo(params);
@@ -51,7 +55,10 @@ public class MemberService extends EgovAbstractServiceImpl {
 		params.put("name", "name2");
 		_memberMapper.insertDemo(params);
 		
-		int i =  100 / 0;
+		//int i =  100 / 0;
+		if(dummy == null) {
+			throw processException("processException 발생....");
+		}
 		
 		params.put("name", "name3");
 		_memberMapper.insertDemo(params);

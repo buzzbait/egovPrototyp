@@ -21,6 +21,7 @@ import egovframework.buzz.rootconfig.ConfigApplicationContext;
 import egovframework.buzz.rootconfig.ConfigContextAspect;
 import egovframework.buzz.rootconfig.ConfigContextDataSource;
 import egovframework.buzz.rootconfig.ConfigMyBatis;
+import egovframework.buzz.servlet.RestServlet;
 import egovframework.buzz.servlet.WebMvcServlet;
 import egovframework.rte.ptl.mvc.filter.HTMLTagFilter;
 
@@ -36,9 +37,7 @@ import egovframework.rte.ptl.mvc.filter.HTMLTagFilter;
 public class WebInitializer implements WebApplicationInitializer{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebInitializer.class);
-	private static final String CONFIG_PATH = "egovframework.buzz.rootconfig";	
-	
-	
+		
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		
@@ -46,11 +45,12 @@ public class WebInitializer implements WebApplicationInitializer{
 					
 		/*******************************************************************************************************
 		 * 1. APPLICATION CONTEXT 정의......(전체 공통)
+		 * - Service,Repository,DataSource,Mybatis Transaction 빈 정의
 		 ******************************************************************************************************/
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		
 		//특정위치에 있는 Configuration 클래스를 Loading.....				
-		//rootContext.setConfigLocation(CONFIG_PATH);
+		//rootContext.setConfigLocation("egovframework.buzz.rootconfig");
 		
 		//위치지정이 아닌 특정 rootClass 만 등록하기 위해서는 아래코드 사용
 		Class<?>[] contextClasses = new Class[] { 	ConfigApplicationContext.class,
@@ -65,18 +65,22 @@ public class WebInitializer implements WebApplicationInitializer{
 	    	    
 	    /*******************************************************************************************************
 		 * 2. WEBAPPLICATION CONTEXT 정의......(서블릿)
+		 * - Controller(RestController) 빈정의
 		 ******************************************************************************************************/
 	    //MVC 컨텍스트 정의
 	    AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
 	    appContext.register(WebMvcServlet.class);	   
-	    ServletRegistration.Dynamic appDispatcher =	servletContext.addServlet("appServlet", new DispatcherServlet(appContext));
+	    
+	    DispatcherServlet ds =new DispatcherServlet(appContext);
+	    ds.setThrowExceptionIfNoHandlerFound(true);
+	    ServletRegistration.Dynamic appDispatcher =	servletContext.addServlet("appServlet", ds);
 	    appDispatcher.setLoadOnStartup(1);
 	    appDispatcher.addMapping("*.do");
-	    
+	    	    	    	    	    
 	    /*
 	    //REST 컨텍스트 정의
 	    AnnotationConfigWebApplicationContext restContext = new AnnotationConfigWebApplicationContext();
-	    restContext.register(RestApiServlet.class);	   
+	    restContext.register(RestServlet.class);	   
 	    ServletRegistration.Dynamic restDispatcher =	servletContext.addServlet("restContext", new DispatcherServlet(restContext));
 	    restDispatcher.setLoadOnStartup(1);
 	    restDispatcher.addMapping("/api");*/
