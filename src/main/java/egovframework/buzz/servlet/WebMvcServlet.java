@@ -159,6 +159,11 @@ public class WebMvcServlet extends WebMvcConfigurationSupport{
 		converters.add(customJackson2HttpMessageConverter());
 		super.addDefaultHttpMessageConverters(converters);
 	}
+	
+	 @Bean(name="jsonView")
+		public MappingJackson2JsonView jsonView() {
+			return new MappingJackson2JsonView();
+		}
 		
 }
 

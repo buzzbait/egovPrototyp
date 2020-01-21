@@ -22,7 +22,7 @@ public class GlobalRestControllerAdvice {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GlobalRestControllerAdvice.class);
 	public GlobalRestControllerAdvice() {
-		LOGGER.debug("BuzzRestControllerAdvice 설정");
+		LOGGER.debug("GlobalRestControllerAdvice 설정");
 	}
 	
 	/*
@@ -35,8 +35,8 @@ public class GlobalRestControllerAdvice {
 		result.put("status" , -1);
 	    result.put("message", "error");
 		return new ResponseEntity<HashMap<String,Object> >(result,HttpStatus.BAD_REQUEST);
-    }*/
-	
+    }
+	*/
 	@ExceptionHandler(EgovBizException.class)    
     public ResponseEntity<HashMap<String,Object>>  egovException(EgovBizException e) {
        
@@ -45,16 +45,15 @@ public class GlobalRestControllerAdvice {
 	    result.put("message", "error");
 		return new ResponseEntity<HashMap<String,Object> >(result,HttpStatus.BAD_REQUEST);
     }
-	
+		
 	/*
-	@ExceptionHandler(NoHandlerFoundException.class)
-	@RequestMapping(produces = {"application/json"})
+	@ExceptionHandler(NoHandlerFoundException.class)	
 	public ResponseEntity<HashMap<String,Object>>  noHandlerFoundException() {
 		HashMap<String,Object> result = new HashMap<String,Object>();
 	        
 		result.put("status" , -1);
 	    result.put("message", "no url");	            
 	    return new ResponseEntity<HashMap<String,Object> >(result,HttpStatus.NOT_FOUND);
-	}
-	*/
+	}*/
+	
 }

@@ -1,17 +1,14 @@
 package egovframework.buzz.exception;
 
 
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 /*********************************************************************************************
  * 서블릿을 나누지 않는 이상 404 error( NOT_FOUND)는 RestControllerAdvice,ControllerAdvice 
@@ -30,22 +27,37 @@ public class GlobalWebControllerAdvice {
 		LOGGER.debug("GlobalWebControllerAdvice 설정");
 	}
 	
-	//@ResponseStatus(HttpStatus.NOT_FOUND)
+	/*
 	@ExceptionHandler(NoHandlerFoundException.class)	
-	public ModelAndView noHandlerFoundException(HttpServletRequest request) {
+	public ModelAndView noHandlerFoundException(HttpServletRequest request, NoHandlerFoundException ex) {
         
 		ModelAndView model = null;
 		
 		String contentType = request.getHeader("Content-Type");
 		if(_isJsonRequest(contentType)) {
 			model = new ModelAndView();
-			model.setView(new MappingJackson2JsonView());			
+			model.setView(new MappingJackson2JsonView());
 			model.addObject("message","주소없음");
+			model.setStatus(HttpStatus.NOT_FOUND);
 		}else {
 			model = new ModelAndView("cmmn/egovError");
 		}
 						 
 	    return model;
+	}*/
+	/************************************************************************************************
+	 * 페이지이동,ajax 호출에 따라서 리턴 분리....
+	 ************************************************************************************************/
+	@ExceptionHandler(NoHandlerFoundException.class)	
+	public String noHandlerFoundException(HttpServletRequest request, NoHandlerFoundException ex) {
+		String contentType = request.getHeader("Content-Type");
+		if(_isJsonRequest(contentType)) {
+			//Ajax 호출인 경우에는 json 타입으로 리턴
+			return "redirect:/api/common/notfound.do";
+		}else {
+			//페이지 이동인 경우는 오류페이지 view 리턴
+			return "redirect:/view/common/notfound.do";
+		}						
 	}
 	
 	/************************************************************************************************
@@ -53,8 +65,7 @@ public class GlobalWebControllerAdvice {
 	 ************************************************************************************************/
 	public boolean _isJsonRequest(final String contentType) {		
 		return (contentType!=null && MediaType.APPLICATION_JSON_VALUE.equals(contentType))?true:false;		
-	}
-	
-	
-	
+	}	
+
+
 }
