@@ -8,7 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import egovframework.buzz.domain.common.CommonController;
+import egovframework.buzz.enumset.EnumAdviceException;
 
 /*********************************************************************************************
  * 서블릿을 나누지 않는 이상 404 error( NOT_FOUND)는 RestControllerAdvice,ControllerAdvice 
@@ -45,27 +49,42 @@ public class GlobalWebControllerAdvice {
 						 
 	    return model;
 	}*/
-	/************************************************************************************************
-	 * 페이지이동,ajax 호출에 따라서 리턴 분리....
-	 ************************************************************************************************/
+	/*================================================================================================
+	 * 404 에러 처리
+	 ================================================================================================*/
 	@ExceptionHandler(NoHandlerFoundException.class)	
 	public String noHandlerFoundException(HttpServletRequest request, NoHandlerFoundException ex) {
-		String contentType = request.getHeader("Content-Type");
-		if(_isJsonRequest(contentType)) {
-			//Ajax 호출인 경우에는 json 타입으로 리턴
-			return "redirect:/api/common/notfound.do";
-		}else {
-			//페이지 이동인 경우는 오류페이지 view 리턴
-			return "redirect:/view/common/notfound.do";
-		}						
+		String contentType = request.getHeader("Content-Type");		
+		return _getRedirectURI(EnumAdviceException.NOT_FOUND , contentType);						
 	}
 	
-	/************************************************************************************************
+	/*================================================================================================
+	 * 처리되지 않은 Exception 처리
+	 ================================================================================================*/
+	@ExceptionHandler(Exception.class)	
+	public String normalException(HttpServletRequest request, Exception ex) {
+		String contentType = request.getHeader("Content-Type");
+		return _getRedirectURI(EnumAdviceException.OTHER_EXCEPTION , contentType);						
+	}
+	
+	/*================================================================================================
 	 * 페이지 이동인지 ajax call 인지 검사
-	 ************************************************************************************************/
-	public boolean _isJsonRequest(final String contentType) {		
+	 ================================================================================================*/	
+	public boolean _isAjaxRequest(final String contentType) {		
 		return (contentType!=null && MediaType.APPLICATION_JSON_VALUE.equals(contentType))?true:false;		
 	}	
-
+	
+	/*================================================================================================
+	 * 오류 타입에 따른 redirect 페이지 설정
+	 ================================================================================================*/	
+	public String _getRedirectURI(final EnumAdviceException adviceException, final String contentType) {
+		if(_isAjaxRequest(contentType)) {
+			//Ajax 호출인 경우에는 json 타입으로 리턴
+			return "redirect:/api/common/" + adviceException.getValue();
+		}else {
+			//페이지 이동인 경우는 오류페이지 view 리턴
+			return "redirect:/view/common/" + adviceException.getValue();
+		}		
+	}
 
 }
