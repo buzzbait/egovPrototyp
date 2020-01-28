@@ -20,5 +20,14 @@ public class CommonRestController {
 		result.put("status" , -1);
 	    result.put("message", "no url");	            
 	    return new ResponseEntity<HashMap<String,Object> >(result,HttpStatus.NOT_FOUND);		
+	}
+	
+	@RequestMapping(value = "/egovbizexception")
+	public ResponseEntity<HashMap<String,Object>>  egovBizException() {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+        
+		result.put("status" , -1);
+	    result.put("message", "egovbizexception");	            
+	    return new ResponseEntity<HashMap<String,Object> >(result,HttpStatus.BAD_REQUEST);		
 	}	
 }

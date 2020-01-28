@@ -57,7 +57,7 @@ public class MemberService extends EgovAbstractServiceImpl {
 		
 		//int i =  100 / 0;
 		if(dummy == null) {
-			throw processException("processException 발생....");
+			throw processException("fail.common.msg");
 			//throw new Exception("트랜잭션오류..."); 
 		}
 		

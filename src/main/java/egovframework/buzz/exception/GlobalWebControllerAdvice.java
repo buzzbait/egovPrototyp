@@ -13,6 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import egovframework.buzz.domain.common.CommonController;
 import egovframework.buzz.enumset.EnumAdviceException;
+import egovframework.rte.fdl.cmmn.exception.EgovBizException;
 
 /*********************************************************************************************
  * 서블릿을 나누지 않는 이상 404 error( NOT_FOUND)는 RestControllerAdvice,ControllerAdvice 
@@ -56,6 +57,18 @@ public class GlobalWebControllerAdvice {
 	public String noHandlerFoundException(HttpServletRequest request, NoHandlerFoundException ex) {
 		String contentType = request.getHeader("Content-Type");		
 		return _getRedirectURI(EnumAdviceException.NOT_FOUND , contentType);						
+	}
+	
+	/*================================================================================================
+	 * EgovBizException 에러 처리
+	 ================================================================================================*/
+	@ExceptionHandler(EgovBizException.class)	
+	public String eGovBizException(HttpServletRequest request, EgovBizException ex) {
+		
+		LOGGER.debug("EgovBizException : {}", ex.getMessage());
+		
+		String contentType = request.getHeader("Content-Type");		
+		return _getRedirectURI(EnumAdviceException.EGOVBIZ_EXCEPTION , contentType);						
 	}
 	
 	/*================================================================================================

@@ -1,7 +1,8 @@
 package egovframework.buzz.enumset;
 
 public enum EnumAdviceException {
-	NOT_FOUND("notfound.do"),	 
+	NOT_FOUND("notfound.do"),
+	EGOVBIZ_EXCEPTION("egovbizexception.do"),
 	OTHER_EXCEPTION("exception.do"); 
 	
 	private String url;
