@@ -40,6 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * dispatcher-servlet.xml 대체
  * @EnableAspectJAutoProxy 를 사용해야 Controller(RestController) 에 대해서 CGLIB 방식으로 AOP를 사용 가능 하다
  * (ApplicationContext,ServletContext 따로 설정)
+ * @EnableAspectJAutoProxy 사용시 인터페이스를 구현한 빈도 강제로 CGLIB 방식을 사용하게 된다
  *********************************************************************************************************/
 @Configuration
 
