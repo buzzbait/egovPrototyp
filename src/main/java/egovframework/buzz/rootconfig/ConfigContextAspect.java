@@ -34,6 +34,7 @@ import egovframework.buzz.aop.CommonContextAspect;
  * @EnableAspectJAutoProxy
  * ->AOP 의 Proxy 방식을 CGLib 방식으로 설정(전자정부프레임웍의 경우 디폴트는 JDK-Proxy)
  * 여기서설정하는 @EnableAspectJAutoProxy 는 ApplicationContext Level 에서만 가능(Service,Repsitory 만 AOP 적용)
+ * @EnableAspectJAutoProxy 는 로컬 컨텍스트에만 적용되기 때문에 각각의 컨텍스트에 별도로 선언해야 한다
  *************************************************************************************************************/
 @Configuration
 @EnableAspectJAutoProxy
