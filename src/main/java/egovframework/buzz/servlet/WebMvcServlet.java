@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**********************************************************************************************************
  * 서블릿 정의 클래스
+ * 동일시스템에서 호출하는 페이지 호출 ajax 호출 모두 여기서 처리 
  * WebMvcConfigurationSupport 를 구현하면 @EnableWebMvc 가 필요 없어진다
  * dispatcher-servlet.xml 대체
  * @EnableAspectJAutoProxy 를 사용해야 Controller(RestController) 에 대해서 CGLIB 방식으로 AOP를 사용 가능 하다
