@@ -14,7 +14,15 @@ SpringSecurity 를 적용하는 순간 모든 컨트롤러는 세션체크를 �
 - 중복 로그인 컨트롤
 
 ※DispatcherServlet 구성
+ApplicationContext 와 각 도메인별 dipatcher servlet 을 구성한다.
+- ApplicationContext : Repository,Service Bean  을 정의 한다.
+- business servlet : 일반적인 비지니스 Controller Bean 정의
+- open api servlet : 외부에 오픈된 RestController Bean 정의
+- private api servlet : 내부에만 오픈된 RestController Bean 정의
 
+일반적으로 도메인별로 N개의 servlet 을 구성한다
+servlet 별로 각 주소 매핑을 다르게 한다
+(API 타입의 컨트롤러는 Controller 보다는 RestController 를 사용한다)
 
 
 ※오류처리 구성
