@@ -52,15 +52,34 @@ AOP Proxy 방식을 context 별로 모두 CGLib 방식으로 설정 하여 인�
 ※Mybatis DAO 작성대신 Mapper를 작성 한다
 Mapper 는 Interface 로 작성하며 @Mapper 어노테이션을 사용 한다(전자정부프레임웍 적용 기준 사항)
 
+※Controller 작성 규칙
+@Controller 어노테이션을 사용 한다.
+파라미터는 Get 방식의 경우 HttpServletRequest 또는 @RequestParam 을 사용 한다.
 
+@RequestMapping("/main.do")
+public String main(HttpServletRequest request) {
+    String id = request.getParameter("id");
+    System.out.prinln(id);
+    return "main";
+}
 
+@RequestMapping("/main.do")
+public String main(@RequestParam(value="id", defaultValue="haenny") String id) {
+    System.out.prinln(id);
+    return "main";
+}
 
+Post 방식의 경우 @RequestBody  를 사용한다
+@PostMapping("/main.do")
+public String main(@RequestBody UserVO user) {
+    System.out.prinln(user.getId());
+    return "main";
+}
 
+ajax 호출의 경우 @ResponseBody를 사용한다.   
+(동일 업무인 경우 RestController,Controller 를 분리하지 않는다)
 
-
-
-
-
-
-
-
+※Service 작성 규칙
+@Service,@Transaction 어노테이션을 사용한다.
+명시적인 커밋,롤백 사용금지
+throw exception 사용금지(사용시 롤백 옵션 지정 할 것)
